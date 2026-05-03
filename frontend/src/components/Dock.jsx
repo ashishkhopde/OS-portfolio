@@ -63,7 +63,7 @@ function Dock() {
             openWindow(app.id);
         }
 
-        console.log(windows)
+        // console.log(windows)
     }
 
     return (
