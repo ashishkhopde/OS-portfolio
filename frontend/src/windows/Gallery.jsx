@@ -12,7 +12,7 @@ function Gallery() {
     return (
         <>
             <div id="window-header">
-                <WindowControls target="gallery" />
+                <WindowControls target="photos" />
                 {/* <div className="w-full flex justify-between items-center gap-3 text-gray-500">
                 <Mail className="icon" />
                 <Search className="icon" />
@@ -25,10 +25,10 @@ function Gallery() {
                     <h2>Photos</h2>
 
                     <ul>
-                        {photosLinks.map(({ id, icon, tittle }) => (
+                        {photosLinks.map(({ id, icon, title }) => (
                             <li key={id}>
-                                <img src={icon} alt={tittle} />
-                                <p>{tittle}</p>
+                                <img src={icon} alt={title} />
+                                <p>{title}</p>
                             </li>
                         ))}
                     </ul>
