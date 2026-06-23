@@ -9,37 +9,53 @@ function WindowWrapper(Component, windowKey) {
 
     const Wrapped = (props) => {
         const { focusWindow, windows } = useWindowStore();
-        const { isOpen, zIndex } = windows[windowKey];
+        const { isOpen, isMinimized, isMaximized, zIndex } = windows[windowKey];
         const ref = useRef(null);
+        const windowStyle = isMaximized ? {
+            zIndex,
+            top: '0',
+            left: '0',
+            right: '0',
+            bottom: '0',
+            width: 'auto',
+            height: '100dvh',
+            maxWidth: 'none',
+            transform: 'none',
+            display: isOpen && !isMinimized ? 'flex' : 'none',
+            flexDirection: 'column',
+        } : { zIndex };
 
         useGSAP(() => {
             const el = ref.current;
-            if (!el || !isOpen) return;
+            if (!el || !isOpen || isMinimized) return;
 
             el.style.display = 'block';
 
             gsap.fromTo(el, { opacity: 0, scale: 0.8, y:40 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'power3.out' });
-        }, [isOpen]);
+        }, [isOpen, isMinimized]);
 
         useGSAP(() => {
             const el = ref.current;
             if (!el) return;
 
-            Draggable.create(el, { onPress: () => focusWindow(windowKey) });
-        })
+            const [draggable] = Draggable.create(el, { onPress: () => focusWindow(windowKey) });
+            if (isMaximized) draggable.disable();
+
+            return () => draggable.kill();
+        }, [isMaximized])
 
         useLayoutEffect(() => {
             const el = ref.current;
             if (!el) return;
 
-            el.style.display = isOpen ? 'block' : 'none';
-        }, [isOpen])
+            el.style.display = isOpen && !isMinimized ? (isMaximized ? 'flex' : 'block') : 'none';
+        }, [isOpen, isMinimized, isMaximized])
 
         return <section
             id={windowKey}
             ref={ref}
-            style={{ zIndex: zIndex }}
-            className='absolute'
+            style={windowStyle}
+            className={isMaximized ? 'absolute maximized-window' : 'absolute'}
         >
             <Component {...props} />
         </section>

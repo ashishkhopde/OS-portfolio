@@ -101,6 +101,10 @@ body {
   #window-controls {
     @apply flex gap-2;
 
+    button {
+      @apply border-0 p-0 cursor-pointer;
+    }
+
     .close {
       @apply size-3.5 rounded-full bg-[#ff6157] cursor-pointer;
     }
@@ -110,7 +114,21 @@ body {
     }
 
     .maximize {
-      @apply size-3.5 rounded-full bg-[#2acb42];
+      @apply size-3.5 rounded-full bg-[#2acb42] cursor-pointer;
+    }
+  }
+
+  .maximized-window {
+    @apply !w-auto !max-w-none !h-dvh !translate-x-0 !translate-y-0 !rounded-none;
+
+    > :last-child {
+      @apply flex-1 min-h-0;
+    }
+  }
+
+  #finder.maximized-window {
+    .content {
+      @apply max-w-none;
     }
   }
 
@@ -255,7 +273,7 @@ body {
           }
 
           img {
-            @apply w-4 mt-1.7;
+            @apply w-4;
           }
 
           p {

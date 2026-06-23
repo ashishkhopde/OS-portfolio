@@ -2,8 +2,6 @@ import WindowWrapper from "#hoc/WindowWrapper"
 import WindowControls from "#components/WindowControls"
 import { gallery, photosLinks } from "#constants"
 import useWindowStore from "#store/window"
-import { Mail } from "lucide-react";
-import { Search } from "lucide-react";
 
 function Gallery() {
 

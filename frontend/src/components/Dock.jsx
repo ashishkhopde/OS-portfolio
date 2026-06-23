@@ -57,7 +57,7 @@ function Dock() {
             return;
         }
 
-        if (window.isOpen) {
+        if (window.isOpen && !window.isMinimized) {
             closeWindow(app.id);
         } else {
             openWindow(app.id);
