@@ -70,7 +70,7 @@ const dockApps = [
     id: "trash",
     name: "Archive",
     icon: "trash.png",
-    canOpen: false,
+    canOpen: true,
   },
 ];
 
@@ -608,27 +608,42 @@ const RESUME_LOCATION = {
 const TRASH_LOCATION = {
   id: 4,
   type: "trash",
-  name: "Trash",
+  name: "Archive",
   icon: "/icons/trash.svg",
   kind: "folder",
   children: [
     {
       id: 1,
-      name: "archive1.png",
+      name: "Early UI Mockup.png",
       icon: "/images/image.png",
       kind: "file",
       fileType: "img",
-      position: "top-10 left-10",
+      position: "top-8 left-10",
       imageUrl: "/images/trash-1.png",
     },
     {
       id: 2,
-      name: "archive2.png",
+      name: "Legacy Flow.png",
       icon: "/images/image.png",
       kind: "file",
       fileType: "img",
-      position: "top-40 left-80",
+      position: "top-8 left-48",
       imageUrl: "/images/trash-2.png",
+    },
+    {
+      id: 3,
+      name: "Archived Notes.txt",
+      icon: "/images/txt.png",
+      kind: "file",
+      fileType: "txt",
+      position: "top-8 left-88",
+      subtitle: "Archived Drafts & Prototypes",
+      description: [
+        "### Archive & Trash Bin",
+        "• Early exploratory wireframes and retired interface components.",
+        "• Legacy architectural diagrams superseded by current modular ERP and SaaS architectures.",
+        "• Previous iterations of design assets kept for historical reference.",
+      ],
     },
   ],
 };
