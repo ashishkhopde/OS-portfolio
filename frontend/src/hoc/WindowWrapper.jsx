@@ -1,69 +1,119 @@
-import useWindowStore from '#store/window'
+import useWindowStore from '#store/window';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { Draggable } from 'gsap/Draggable';
-import { useLayoutEffect } from 'react';
 import { useRef } from 'react';
 
 function WindowWrapper(Component, windowKey) {
-
     const Wrapped = (props) => {
         const { focusWindow, windows } = useWindowStore();
-        const { isOpen, isMinimized, isMaximized, zIndex } = windows[windowKey];
+        const win = windows[windowKey] || {};
+        const { isOpen = false, isMinimized = false, isMaximized = false, zIndex = 1000 } = win;
         const ref = useRef(null);
+        const draggableRef = useRef(null);
+
+        const isVisible = isOpen && !isMinimized;
+
         const windowStyle = isMaximized ? {
             zIndex,
             top: '0',
             left: '0',
             right: '0',
             bottom: '0',
-            width: 'auto',
+            width: '100dvw',
             height: '100dvh',
             maxWidth: 'none',
+            maxHeight: 'none',
             transform: 'none',
-            display: isOpen && !isMinimized ? 'flex' : 'none',
+            display: isVisible ? 'flex' : 'none',
             flexDirection: 'column',
-        } : { zIndex };
+        } : {
+            zIndex,
+            display: isVisible ? 'flex' : 'none',
+            flexDirection: 'column',
+        };
 
+        // Initialize / update Draggable
         useGSAP(() => {
             const el = ref.current;
-            if (!el || !isOpen || isMinimized) return;
+            if (!el || !isOpen) return;
 
-            el.style.display = 'block';
+            const handle = el.querySelector('#window-header') || el;
 
-            gsap.fromTo(el, { opacity: 0, scale: 0.8, y:40 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: 'power3.out' });
+            const [draggable] = Draggable.create(el, {
+                trigger: handle,
+                edgeResistance: 0.65,
+                type: 'x,y',
+                onPress: () => focusWindow(windowKey),
+            });
+            draggableRef.current = draggable;
+
+            if (isMaximized) {
+                draggable.disable();
+                gsap.set(el, { x: 0, y: 0 });
+            } else {
+                draggable.enable();
+                draggable.update();
+            }
+
+            return () => {
+                draggable.kill();
+                draggableRef.current = null;
+            };
+        }, [isMaximized, isOpen]);
+
+        // Opening animation and position reset on open
+        useGSAP(() => {
+            const el = ref.current;
+            if (!el) return;
+
+            if (!isOpen || isMinimized) {
+                if (!isOpen) {
+                    gsap.set(el, { x: 0, y: 0 });
+                }
+                return;
+            }
+
+            if (!isMaximized) {
+                gsap.fromTo(
+                    el,
+                    { opacity: 0, scale: 0.9, y: 24 },
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        y: 0,
+                        duration: 0.35,
+                        ease: 'power3.out',
+                        onComplete: () => {
+                            draggableRef.current?.update();
+                        }
+                    }
+                );
+            } else {
+                gsap.fromTo(
+                    el,
+                    { opacity: 0 },
+                    { opacity: 1, duration: 0.25, ease: 'power2.out' }
+                );
+            }
         }, [isOpen, isMinimized]);
 
-        useGSAP(() => {
-            const el = ref.current;
-            if (!el) return;
-
-            const [draggable] = Draggable.create(el, { onPress: () => focusWindow(windowKey) });
-            if (isMaximized) draggable.disable();
-
-            return () => draggable.kill();
-        }, [isMaximized])
-
-        useLayoutEffect(() => {
-            const el = ref.current;
-            if (!el) return;
-
-            el.style.display = isOpen && !isMinimized ? (isMaximized ? 'flex' : 'block') : 'none';
-        }, [isOpen, isMinimized, isMaximized])
-
-        return <section
-            id={windowKey}
-            ref={ref}
-            style={windowStyle}
-            className={isMaximized ? 'absolute maximized-window' : 'absolute'}
-        >
-            <Component {...props} />
-        </section>
-    }
+        return (
+            <section
+                id={windowKey}
+                ref={ref}
+                style={windowStyle}
+                onPointerDown={() => focusWindow(windowKey)}
+                className={isMaximized ? 'absolute maximized-window' : 'absolute'}
+            >
+                <Component {...props} />
+            </section>
+        );
+    };
 
     Wrapped.displayName = `WindowWrapper(${Component.displayName || Component.name || 'Component'})`;
 
     return Wrapped;
 }
 
-export default WindowWrapper
+export default WindowWrapper;
