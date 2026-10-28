@@ -45,6 +45,16 @@ function WindowWrapper(Component, windowKey) {
                 edgeResistance: 0.65,
                 type: 'x,y',
                 onPress: () => focusWindow(windowKey),
+                onDragStart: () => {
+                    el.querySelectorAll('iframe').forEach(f => {
+                        f.style.pointerEvents = 'none';
+                    });
+                },
+                onDragEnd: () => {
+                    el.querySelectorAll('iframe').forEach(f => {
+                        f.style.pointerEvents = 'auto';
+                    });
+                },
             });
             draggableRef.current = draggable;
 

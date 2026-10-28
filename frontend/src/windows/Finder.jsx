@@ -18,7 +18,7 @@ function Finder() {
             return setActiveLocation(item);
         }
         if (['fig', 'url'].includes(item.fileType) && item.href){
-            return window.open(item.href, '_blank');
+            return openWindow("safari", { url: item.href, title: item.name });
         }
 
         openWindow(`${item.fileType}${item.kind}`, item);
