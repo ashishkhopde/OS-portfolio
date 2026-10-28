@@ -13,12 +13,17 @@ function Contact() {
 
         <div className="p-6 space-y-5 flex-1 min-h-0 overflow-y-auto">
             <div className="flex items-center gap-4">
-                <img src="/images/adrian.jpg" alt="Ashish" className="w-16 h-16 rounded-full object-cover shadow-sm"/>
+                <img src="/images/ashish.png" alt="Ashish Khopde" className="w-16 h-16 rounded-full object-cover shadow-sm border border-gray-200"/>
                 <div>
-                    <h3 className="text-xl font-bold text-gray-800">Let's Connect</h3>
-                    <p className="text-sm text-gray-500">Got an idea? A bug to squash? Or just wanna talk tech? I'm in.</p>
+                    <h3 className="text-xl font-bold text-gray-800">Ashish Khopde</h3>
+                    <p className="text-sm font-medium text-blue-600">MERN Stack Developer | Full Stack Developer</p>
+                    <p className="text-xs text-gray-500 mt-1">India • +91-7089542024 • ashishkhopde7089@gmail.com</p>
                 </div>
             </div>
+
+            <p className="text-sm text-gray-600 leading-relaxed">
+                Looking for a MERN Stack or Full Stack Developer who builds robust, scalable web applications with clean architecture and real-world third-party integrations? Let's connect!
+            </p>
 
             <ul className="grid grid-cols-2 gap-3.5 pt-2">
                 { socials.map(({ id, bg, link, icon, text }) => (

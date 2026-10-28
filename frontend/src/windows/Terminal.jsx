@@ -19,16 +19,16 @@ function Terminal() {
             </p>
 
             <div className="label">
-                <p className="w-32">Category</p>
-                <p>Technologies</p>
+                <p className="w-36 font-semibold">Category</p>
+                <p className="font-semibold">Technologies</p>
             </div>
 
             <ul className="content">
                 {techStack.map(({ category, items }) => (
                     <li className="flex items-center" key={category}>
                         <Check className="check" size={18}/>
-                        <h3>{category}</h3>
-                        <ul>
+                        <h3 className="w-36 shrink-0">{category}</h3>
+                        <ul className="flex items-center gap-2 flex-wrap">
                             {items.map((item, i) => (
                                 <li key={i}>{item}{i < items.length - 1 ? ',' : ''}</li>
                             ))}
@@ -39,11 +39,11 @@ function Terminal() {
 
             <div className="footnote">
                 <p>
-                    <Check size={18}/> 5 of 5 stacks loaded successfully (100%)
+                    <Check size={18}/> {techStack.length} of {techStack.length} stacks loaded successfully (100%)
                 </p>
 
                 <p className="text-black flex items-center gap-2">
-                    <Flag size={14} fill="black"/> Render time: 6ms
+                    <Flag size={14} fill="black"/> Render time: 4ms
                 </p>
             </div>
         </div>
