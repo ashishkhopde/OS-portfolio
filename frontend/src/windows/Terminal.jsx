@@ -18,21 +18,22 @@ function Terminal() {
                 {" "}show tech stack
             </p>
 
-            <div className="label">
-                <p className="w-36 font-semibold">Category</p>
-                <p className="font-semibold">Technologies</p>
+            {/* Table Header */}
+            <div className="grid grid-cols-[20px_185px_1fr] items-center gap-3 font-semibold text-gray-900 mt-6 px-1 text-sm select-none">
+                <div />
+                <p>Category</p>
+                <p>Technologies</p>
             </div>
 
+            {/* Table Rows */}
             <ul className="content">
                 {techStack.map(({ category, items }) => (
-                    <li className="flex items-center" key={category}>
-                        <Check className="check" size={18}/>
-                        <h3 className="w-36 shrink-0">{category}</h3>
-                        <ul className="flex items-center gap-2 flex-wrap">
-                            {items.map((item, i) => (
-                                <li key={i}>{item}{i < items.length - 1 ? ',' : ''}</li>
-                            ))}
-                        </ul>
+                    <li className="grid grid-cols-[20px_185px_1fr] items-start gap-3" key={category}>
+                        <Check className="text-[#00A154] shrink-0 mt-0.5" size={16}/>
+                        <h3 className="font-semibold text-[#00A154] leading-normal">{category}</h3>
+                        <p className="text-gray-800 leading-normal">
+                            {items.join(", ")}
+                        </p>
                     </li>
                 ))}
             </ul>
