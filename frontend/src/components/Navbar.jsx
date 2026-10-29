@@ -1,16 +1,14 @@
-import dayjs from "dayjs"
-
-import { navIcons, navLinks } from '#constants'
-import useWindowStore from "#store/window"
+import dayjs from "dayjs";
+import { navIcons, navLinks } from '#constants';
+import useWindowStore from "#store/window";
 
 function Navbar() {
-
     const { openWindow } = useWindowStore();
 
     return (
         <nav>
             <div>
-                <img src="images/logo.svg" alt="logo" />
+                <img src="/images/logo.svg" alt="logo" />
                 <p className='font-bold'>Ashish Portfolio</p>
 
                 <ul>
@@ -36,7 +34,7 @@ function Navbar() {
                 <time>{dayjs().format("ddd MMM D h:mm A")}</time>
             </div>
         </nav>
-    )
+    );
 }
 
-export default Navbar
+export default Navbar;
